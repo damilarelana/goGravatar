@@ -17,5 +17,7 @@ message GravatarResponse {
 
 // defining the Service interface
 service GravatarService {
-  rpc Generate(GravatarRequest) returns (GravatarResponse);
+  rpc Generate(GravatarRequest) returns (GravatarResponse) {
+
+  }
 }
