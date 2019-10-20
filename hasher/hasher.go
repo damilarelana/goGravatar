@@ -16,13 +16,13 @@ func EmailHasher(email string) string {
 }
 
 // CreateURL takes the hashed email value returns the gravatar endpoint
-func CreateURL(hashedValue string, size uint32) string {
+func CreateURL(hashedValue string, size int32) string {
 	gURL := fmt.Sprintf("https://www.gravatar.com/avatar/%v?s=%d", hashedValue, size)
 	return gURL
 }
 
 // Gravatar calls the CreateURL() to generate the endpoint
-func Gravatar(email string, size uint32) string {
+func Gravatar(email string, size int32) string {
 	hashedValue := EmailHasher(email)
 	return CreateURL(hashedValue, size)
 }

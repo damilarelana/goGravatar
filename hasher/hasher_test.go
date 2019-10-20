@@ -9,7 +9,7 @@ import (
 type testValues struct {
 	gravatarEndpoint string
 	email            string
-	size             uint32
+	size             int32
 	hashedEmail      string
 }
 
