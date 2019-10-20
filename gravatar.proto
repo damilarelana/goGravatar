@@ -1,0 +1,21 @@
+// selecting the protobuf syntax
+syntax="proto3";
+
+// define the schema as being part of `main` package
+package gravatar;
+
+// defining the Gravatar Request schema
+message GravatarRequest {
+  string email = 1;
+  int32 size = 2;
+}
+
+// defining the Gravatar Response schema
+message GravatarResponse {
+  string url = 1;
+}
+
+// defining the Service interface
+service GravatarService {
+  rpc Generate(GravatarRequest) returns (GravatarResponse);
+}
