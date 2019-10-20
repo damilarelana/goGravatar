@@ -61,6 +61,3 @@ func TestGravatar(t *testing.T) {
 		}
 	}
 }
-
-// if !reflect.DeepEqual(returnedValue, testValuesExtract.sortedSlice)
-// if returnedValue != testValuesExtract.gravatarEndpoint {
