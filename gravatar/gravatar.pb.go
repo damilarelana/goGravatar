@@ -6,8 +6,12 @@
 package gravatar
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -129,4 +133,84 @@ var fileDescriptor_54cb14e52adee2f1 = []byte{
 	0x39, 0x73, 0x71, 0xb8, 0xa7, 0xe6, 0xa5, 0x16, 0x25, 0x96, 0xa4, 0x0a, 0x49, 0xea, 0xc1, 0x1d,
 	0x87, 0xe6, 0x12, 0x29, 0x29, 0x6c, 0x52, 0x10, 0x7b, 0x94, 0x18, 0x92, 0xd8, 0xc0, 0x7e, 0x31,
 	0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0xfd, 0xd3, 0xc0, 0x5b, 0xdd, 0x00, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// GravatarServiceClient is the client API for GravatarService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GravatarServiceClient interface {
+	Generate(ctx context.Context, in *GravatarRequest, opts ...grpc.CallOption) (*GravatarResponse, error)
+}
+
+type gravatarServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewGravatarServiceClient(cc *grpc.ClientConn) GravatarServiceClient {
+	return &gravatarServiceClient{cc}
+}
+
+func (c *gravatarServiceClient) Generate(ctx context.Context, in *GravatarRequest, opts ...grpc.CallOption) (*GravatarResponse, error) {
+	out := new(GravatarResponse)
+	err := c.cc.Invoke(ctx, "/gravatar.GravatarService/Generate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GravatarServiceServer is the server API for GravatarService service.
+type GravatarServiceServer interface {
+	Generate(context.Context, *GravatarRequest) (*GravatarResponse, error)
+}
+
+// UnimplementedGravatarServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedGravatarServiceServer struct {
+}
+
+func (*UnimplementedGravatarServiceServer) Generate(ctx context.Context, req *GravatarRequest) (*GravatarResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Generate not implemented")
+}
+
+func RegisterGravatarServiceServer(s *grpc.Server, srv GravatarServiceServer) {
+	s.RegisterService(&_GravatarService_serviceDesc, srv)
+}
+
+func _GravatarService_Generate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GravatarRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GravatarServiceServer).Generate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gravatar.GravatarService/Generate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GravatarServiceServer).Generate(ctx, req.(*GravatarRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GravatarService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "gravatar.GravatarService",
+	HandlerType: (*GravatarServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Generate",
+			Handler:    _GravatarService_Generate_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "gravatar.proto",
 }

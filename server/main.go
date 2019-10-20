@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
-	"net/http"
 
-	mux "github.com/gorilla/mux"
+	pb "github.com/damilarelana/goGravatar/gravatar"
+	"github.com/damilarelana/goGravatar/hasher"
+	"github.com/pkg/errors"
+	"google.golang.org/grpc"
 )
 
 // set the Port that the server would be listening/serving from
@@ -18,11 +21,9 @@ type GravatarService struct {
 }
 
 // implement the service handler
-func (s *GravatarService) Generate(ctx context.Context, in *pb.GravatarRequest) *pb.GravatarResponse {
+func (s *GravatarService) Generate(ctx context.Context, in *pb.GravatarRequest) (*pb.GravatarResponse, error) {
 	log.Printf("Received email %v with size %v", in.Email, in.Size)
-	return &pb.GravatarResponse{
-		Url: Gravatar(in.Email, in.Size)
-	}
+	return &pb.GravatarResponse{Url: hasher.Gravatar(in.Email, in.Size)}, nil
 }
 
 func main() {
@@ -30,7 +31,7 @@ func main() {
 	// start a server listener
 	listener, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatal(errors.Wrap(err, "Failed to listen on port %v due to %v", port))
+		log.Fatal(errors.Wrap(err, fmt.Sprintf("Failed to listen on port %v due to %v", port)))
 	}
 
 	// instanstiate a gRPC server
