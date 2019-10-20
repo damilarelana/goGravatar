@@ -15,14 +15,14 @@ type testValues struct {
 
 // Implement the testValues struct with actual testPairs
 var testValuesFieldSet = []testValues{
-	{"https://www.gravatar.com/avatar/cf38500a2cd3b6a2c8c1d4d8259e83f8?s=%v", "kamil@lelonek.me", 10, "cf38500a2cd3b6a2c8c1d4d8259e83f8"},
+	{"https://www.gravatar.com/avatar/cf38500a2cd3b6a2c8c1d4d8259e83f8?s=10", "kamil@lelonek.me", 10, "cf38500a2cd3b6a2c8c1d4d8259e83f8"},
 }
 
 // TestEmailHasher function tests the EmailHasher() function in hasher package
 func TestEmailHasher(t *testing.T) {
 	for _, testValuesExtract := range testValuesFieldSet {
 		returnedValue := EmailHasher(testValuesExtract.email)
-		if !reflect.DeepEqual(string(returnedValue), testValuesExtract.hashedEmail) {
+		if !reflect.DeepEqual(returnedValue, testValuesExtract.hashedEmail) {
 			t.Error(
 				"For the email", testValuesExtract.email,
 				"The expected hash was", testValuesExtract.hashedEmail,
@@ -35,7 +35,7 @@ func TestEmailHasher(t *testing.T) {
 // TestCreateURL function tests the CreateURL() in hasher package
 func TestCreateURL(t *testing.T) {
 	for _, testValuesExtract := range testValuesFieldSet {
-		returnedValue := CreateURL([]byte(testValuesExtract.hashedEmail), testValuesExtract.size)
+		returnedValue := CreateURL(testValuesExtract.hashedEmail, testValuesExtract.size)
 		if !reflect.DeepEqual(returnedValue, testValuesExtract.gravatarEndpoint) {
 			t.Error(
 				"For the hashedEmail", testValuesExtract.hashedEmail,
