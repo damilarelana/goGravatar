@@ -1,8 +1,7 @@
 package hasher
 
 import (
-	"crypto/md5"
-	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -11,67 +10,57 @@ type testValues struct {
 	gravatarEndpoint string
 	email            string
 	size             uint32
+	hashedEmail      string
 }
 
 // Implement the testValues struct with actual testPairs
 var testValuesFieldSet = []testValues{
-	{"https://www.gravatar.com/avatar/cf38500a2cd3b6a2c8c1d4d8259e83f8?s=%v", "kamil@lelonek.me", 10},
+	{"https://www.gravatar.com/avatar/cf38500a2cd3b6a2c8c1d4d8259e83f8?s=%v", "kamil@lelonek.me", 10, "cf38500a2cd3b6a2c8c1d4d8259e83f8"},
 }
 
-// TestAverage function tets the Average function in mathPackage
-func TestGravatar(t *testing.T) {
+// TestEmailHasher function tests the EmailHasher() function in hasher package
+func TestEmailHasher(t *testing.T) {
 	for _, testValuesExtract := range testValuesFieldSet {
-		returnedValue := Average(testValuesExtract.testSlice)
-		if returnedValue != testValuesExtract.averageValue {
+		returnedValue := EmailHasher(testValuesExtract.email)
+		if !reflect.DeepEqual(string(returnedValue), testValuesExtract.hashedEmail) {
 			t.Error(
-				"For the test slice", testValuesExtract.testSlice,
-				"The expected average was", testValuesExtract.averageValue,
+				"For the email", testValuesExtract.email,
+				"The expected hash was", testValuesExtract.hashedEmail,
 				"But we instead got", returnedValue,
 			)
 		}
 	}
 }
 
-// TestAverage function tets the Average function in mathPackage
-func TestGravatar(t *testing.T) {
+// TestCreateURL function tests the CreateURL() in hasher package
+func TestCreateURL(t *testing.T) {
 	for _, testValuesExtract := range testValuesFieldSet {
-		returnedValue := Average(testValuesExtract.testSlice)
-		if returnedValue != testValuesExtract.averageValue {
+		returnedValue := CreateURL([]byte(testValuesExtract.hashedEmail), testValuesExtract.size)
+		if !reflect.DeepEqual(returnedValue, testValuesExtract.gravatarEndpoint) {
 			t.Error(
-				"For the test slice", testValuesExtract.testSlice,
-				"The expected average was", testValuesExtract.averageValue,
+				"For the hashedEmail", testValuesExtract.hashedEmail,
+				"and the size", testValuesExtract.size,
+				"The expected gravatar endpoint was", testValuesExtract.gravatarEndpoint,
 				"But we instead got", returnedValue,
 			)
 		}
 	}
 }
 
-// TestAverage function tets the Average function in mathPackage
+// TestGravatar function tests the Gravatar() in hasher package
 func TestGravatar(t *testing.T) {
 	for _, testValuesExtract := range testValuesFieldSet {
-		returnedValue := Average(testValuesExtract.testSlice)
-		if returnedValue != testValuesExtract.averageValue {
+		returnedValue := Gravatar(testValuesExtract.email, testValuesExtract.size)
+		if !reflect.DeepEqual(returnedValue, testValuesExtract.gravatarEndpoint) {
 			t.Error(
-				"For the test slice", testValuesExtract.testSlice,
-				"The expected average was", testValuesExtract.averageValue,
+				"For the hashedEmail", testValuesExtract.hashedEmail,
+				"and the size", testValuesExtract.size,
+				"The expected gravatar endpoint was", testValuesExtract.gravatarEndpoint,
 				"But we instead got", returnedValue,
 			)
 		}
 	}
 }
 
-// gravatarHash() takes an email string and returns it's MD5 hash value
-func EmailHasher(email string) []byte {
-	hashedValue := md5.Sum([]byte(email)) // initialized hashedValue, because [:] does not work on unaddressable value
-	return hashedValue[:]
-}
-
-func CreateURL(hashedValue []byte, size uint32) string {
-	gURL := fmt.Sprintf("https://www.gravatar.com/avatar/%x?s=%d", hashedValue, size)
-	return gURL
-}
-
-func Gravatar(email string, size uint32) string {
-	hashedValue := EmailHasher(email)
-	return CreateURL(hashedValue, size)
-}
+// if !reflect.DeepEqual(returnedValue, testValuesExtract.sortedSlice)
+// if returnedValue != testValuesExtract.gravatarEndpoint {
