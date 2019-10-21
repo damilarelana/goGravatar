@@ -15,7 +15,7 @@ type testValues struct {
 
 // Implement the testValues struct with actual testPairs
 var testValuesFieldSet = []testValues{
-	{"https://www.gravatar.com/avatar/cf38500a2cd3b6a2c8c1d4d8259e83f8?s=10", "kamil@lelonek.me", 10, "cf38500a2cd3b6a2c8c1d4d8259e83f8"},
+	{"https://www.gravatar.com/avatar/606e3533635c8146e6f5e11dcfcb95ac?s=10", "awokogbon@lana.ng", 10, "606e3533635c8146e6f5e11dcfcb95ac"},
 }
 
 // TestEmailHasher function tests the EmailHasher() function in hasher package
