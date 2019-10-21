@@ -27,7 +27,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	r, err := c.Generate(ctx, &pb.GravatarRequest{Email: "kamil@lelonek.me", Size: 10})
+	r, err := c.Generate(ctx, &pb.GravatarRequest{Email: "awokogbon@lana.ng", Size: 10})
 	if err != nil {
 		log.Fatal(errors.Wrap(err, "Could not greet ... "))
 	}
