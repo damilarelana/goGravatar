@@ -29,7 +29,7 @@ func main() {
 
 	r, err := c.Generate(ctx, &pb.GravatarRequest{Email: "kamil@lelonek.me", Size: 10})
 	if err != nil {
-		log.Fatal(errors.Wrap(err, "Could not greet ... ")
+		log.Fatal(errors.Wrap(err, "Could not greet ... "))
 	}
 
 	log.Printf("Greeting: %s", r.Url)
