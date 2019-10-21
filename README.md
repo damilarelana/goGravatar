@@ -5,4 +5,4 @@ A gRPC based web service that consumes Gravatar's API to generates URLs mapped t
 * Go
 * gRPC
 * Protobuf
-* Gorilla Mux
+* Gravatar
