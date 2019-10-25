@@ -31,7 +31,7 @@ func main() {
 	// start a server listener
 	listener, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatal(errors.Wrap(err, fmt.Sprintf("Failed to listen on port %v due to %v", port)))
+		log.Fatal(errors.Wrap(err, fmt.Sprintf("Failed to listen on port %v", port)))
 	}
 
 	// instanstiate a gRPC server
