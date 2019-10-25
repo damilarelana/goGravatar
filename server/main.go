@@ -15,12 +15,12 @@ import (
 // set the Port that the server would be listening/serving from
 const port = ":9091"
 
-// integrate the defined GravatarService [from gravatar.proto]
+// GravatarService to run the service [from gravatar.proto]
 type GravatarService struct {
 	// ...
 }
 
-// implement the service handler
+// Generate service handler method
 func (s *GravatarService) Generate(ctx context.Context, in *pb.GravatarRequest) (*pb.GravatarResponse, error) {
 	log.Printf("Received email %v with size %v", in.Email, in.Size)
 	return &pb.GravatarResponse{Url: hasher.Gravatar(in.Email, in.Size)}, nil
